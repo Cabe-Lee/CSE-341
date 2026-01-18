@@ -5,4 +5,6 @@ const lesson1controller = require('../controllers/lesson1Con');
 routes.get('/', lesson1controller.nameRoute);
 routes.get('/stan', lesson1controller.stanRoute);
 
+// routes.use('/contacts', require('./contacts'));
+
 module.exports = routes;

@@ -1,0 +1,23 @@
+{
+    "contact1": {
+            "firstName": "Kazjana",
+            "lastName": "Lee",
+            "email": "sweety@gmail.com",
+            "favoriteColor": "ocean blue",
+            "birthDate": "08/18/1994"
+    },
+    "contact2": {
+            "firstName": "Stan",
+            "lastName": "Lee",
+            "email": "marvel@gmail.com",
+            "favoriteColor": "red",
+            "birthDate": "12/28/1922"
+    },
+    "contact3": {
+            "firstName": "Dage",
+            "lastName": "Lee",
+            "email": "bro@gmail.com",
+            "favoriteColor": "orange",
+            "birthDate": "01/29/2002"
+    }
+}
