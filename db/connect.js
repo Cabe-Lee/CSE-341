@@ -10,7 +10,7 @@ const initDb = (callback) => {
     return callback(null, _db);
   }
   MongoClient.connect(process.env.MONGODB_URI)
-    .then((client = MongoClient) => {
+    .then((client) => {
       _db = client;
       callback(null, _db);
     })
