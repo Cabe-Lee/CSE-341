@@ -4,6 +4,6 @@ const professionalController = require('../controllers/professionalCon');
 
 const router = express.Router();
 
-router.get('/', professionalController.getAll);
+router.get('/', professionalController.getData);
 
 module.exports = router;
