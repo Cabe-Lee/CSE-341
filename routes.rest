@@ -1,15 +1,89 @@
-// LOCALHOST
 
+
+
+
+
+
+### Deployed Version
+
+### Read Contact - Deployed Version
+GET https://cse-341-6qad.onrender.com/contacts
+### Read Contact1 - Deployed Version
+GET https://cse-341-6qad.onrender.com/contacts/697126558d3e83e56ec32296
+### Read Contact2 - Deployed Version
+GET https://cse-341-6qad.onrender.com/contacts/6971265f8d3e83e56ec32297
+### Read Contact3 - Deployed Version
+GET https://cse-341-6qad.onrender.com/contacts/697126688d3e83e56ec32298
+
+### Create Contact - Deployed Version
+POST https://cse-341-6qad.onrender.com/contacts HTTP/1.1
+content-Type: application/json
+
+{
+    "firstName": "John",
+    "lastName": "Doe",
+    "email": "johndoe@example.com",
+    "favoriteColor": "Blue",
+    "birthday": "01/01/1990"
+}
+
+### Update Contact - Deployed Version (Insert valid ID)
+PUT https://cse-341-6qad.onrender.com/contacts HTTP/1.1
+content-Type: application/json
+
+{
+    "firstName": "John",
+    "lastName": "Doe",
+    "email": "john@example.com",
+    "favoriteColor": "Red",
+    "birthday": "01/01/90"
+}
+
+### Delete Contact - Deployed Version (Insert valid ID)
+DELETE https://cse-341-6qad.onrender.com/contacts HTTP/1.1
+
+
+
+
+### Localhost Version
+
+### Read Contact - Localhost Version
 GET http://localhost:8080/contacts
-
+### Read Contact1 - localhost Version
 GET http://localhost:8080/contacts/697126558d3e83e56ec32296
-
+### Read Contact2 - localhost Version
 GET http://localhost:8080/contacts/6971265f8d3e83e56ec32297
-
+### Read Contact3 - localhost Version
 GET http://localhost:8080/contacts/697126688d3e83e56ec32298
 
-GET https://cse-341-6qad.onrender.com/contacts/697126558d3e83e56ec32296
+### Create Contact - localhost Version
+POST http://localhost:8080/contacts HTTP/1.1
+content-Type: application/json
 
-GET https://cse-341-6qad.onrender.com/contacts/6971265f8d3e83e56ec32297
+{
+    "firstName": "John",
+    "lastName": "Doe",
+    "email": "johndoe@example.com",
+    "favoriteColor": "Blue",
+    "birthday": "01/01/1990"
+}
 
-GET https://cse-341-6qad.onrender.com/contacts/697126688d3e83e56ec32298
+### Update Contact - localhost Version (Insert valid ID)
+PUT http://localhost:8080/contacts/697405dc7e1d5bdf5beaf9e8 HTTP/1.1
+content-Type: application/json
+
+{
+    "firstName": "John",
+    "lastName": "Doe",
+    "email": "john@example.com",
+    "favoriteColor": "Red",
+    "birthday": "01/01/90"
+}
+
+### Delete Contact - localhost Version (Insert valid ID)
+DELETE http://localhost:8080/contacts/697405dc7e1d5bdf5beaf9e8 HTTP/1.1
+
+
+
+
+
