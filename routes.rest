@@ -27,8 +27,11 @@ content-Type: application/json
     "birthday": "01/01/1990"
 }
 
+### Read Contact - Deployed Version (Insert valid ID)
+GET https://cse-341-6qad.onrender.com/contacts/ HTTP/1.1
+
 ### Update Contact - Deployed Version (Insert valid ID)
-PUT https://cse-341-6qad.onrender.com/contacts HTTP/1.1
+PUT https://cse-341-6qad.onrender.com/contacts/ HTTP/1.1
 content-Type: application/json
 
 {
@@ -40,7 +43,7 @@ content-Type: application/json
 }
 
 ### Delete Contact - Deployed Version (Insert valid ID)
-DELETE https://cse-341-6qad.onrender.com/contacts HTTP/1.1
+DELETE https://cse-341-6qad.onrender.com/contacts/ HTTP/1.1
 
 
 
