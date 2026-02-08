@@ -1,0 +1,10 @@
+{
+    "name": "npc1",
+    "level": 10,
+    "strength": 50,
+    "dexterity": 30,
+    "constitution": 40,
+    "intelligence": 20,
+    "wisdom": 15,
+    "charisma": 25
+}

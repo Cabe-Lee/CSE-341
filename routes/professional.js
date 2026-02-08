@@ -1,9 +1,14 @@
-const express = require('express');
+// const express = require('express');
 
-const professionalController = require('../controllers/professionalCon');
+// // const { makeProfessionalController } = require('../controllers/professionalCon');
+// // const { makeProfessionalRepo } = require('../repos/professionalRepo');
+// const Professional = require('../models/professional');
 
-const router = express.Router();
+// // const repo = makeProfessionalRepo(Professional);
+// // const controller = makeProfessionalController(repo);
 
-router.get('/', professionalController.getData);
+// const router = express.Router();
 
-module.exports = router;
+// router.get('/', controller.getData);
+
+// module.exports = router;

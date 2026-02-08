@@ -1,29 +1,19 @@
-const express = require('express');
-const mongodb = require('../db/connect');
-const ObjectId = require('mongodb').ObjectId;
+// function makeProfessionalController(repo) {
+//   return {
+//     getData: async (req, res) => {
+//       try {
+//         const data = await repo.list();
+//         res.setHeader('Content-Type', 'application/json');
+//         res.status(200).json(data[0] || {});
+//       } catch (error) {
+//         console.error('Error fetching professional data:', error);
+//         res.status(500).json({ error: 'Failed to fetch professional data' });
+//       }
+//     },
+//   };
+// }
 
-const getData = async (req, res, next) => {
-  const result = await mongodb.getDb().db().collection('user').find();
-  result.toArray().then((lists) => {
-    res.setHeader('Content-Type', 'application/json');
-    res.status(200).json(lists[0]);
-  });
-}
-
-// const getSingle = async (req, res, next) => {
-//   const userId = new ObjectId(req.params.id);
-//   const result = await mongodb
-//     .getDb()
-//     .db()
-//     .collection('user')
-//     .find({ _id: userId });
-//   result.toArray().then((lists) => {
-//     res.setHeader('Content-Type', 'application/json');
-//     res.status(200).json(lists[0]);
-//   });
-// };
-
-module.exports = { getData };
+// module.exports = { makeProfessionalController };
 
 // const data = {
 //     professionalName: "Nathan Birch",

@@ -50,6 +50,48 @@ DELETE https://cse-341-6qad.onrender.com/contacts/ HTTP/1.1
 
 ### Localhost Version
 
+### Read Players - Localhost Version
+GET http://localhost:8080/npcs
+
+### Read Player1 - Localhost Version (Insert valid ID)
+GET http://localhost:8080/players/6987fadaa24e96d8bdde8124
+
+### Create Player - Localhost Version
+POST http://localhost:8080/players HTTP/1.1
+content-Type: application/json
+
+{
+    "name": "Bob",
+    "level": 10,
+    "strength": 50,
+    "dexterity": 30,
+    "constitution": 40,
+    "intelligence": 20,
+    "wisdom": 15,
+    "charisma": 25     
+}
+
+### Update Player - Localhost Version (Insert valid ID)
+PUT http://localhost:8080/players/6987fadaa24e96d8bdde8124 HTTP/1.1
+content-Type: application/json
+
+{
+    "name": "Bob Sally",
+    "level": 20,
+    "strength": 50,
+    "dexterity": 30,
+    "constitution": 40,
+    "intelligence": 20,
+    "wisdom": 15,
+    "charisma": 25     
+}
+
+### Delete Player - Localhost Version (Insert valid ID)
+DELETE http://localhost:8080/players/6987fadaa24e96d8bdde8124 HTTP/1.1
+
+
+
+
 ### Read Contact - Localhost Version
 GET http://localhost:8080/contacts
 ### Read Contact1 - localhost Version
@@ -64,11 +106,22 @@ POST http://localhost:8080/contacts HTTP/1.1
 content-Type: application/json
 
 {
-    "firstName": "John",
+    "firstName": "Bob",
     "lastName": "Doe",
-    "email": "johndoe@example.com",
-    "favoriteColor": "Blue",
-    "birthday": "01/01/1990"
+    "email": "sallydoe@example.com",
+    "favoriteColor": "Green",
+    "birthday": "01/01/5000"
+}
+
+### Create contact 
+POST http://localhost:8080/contacts HTTP/1.1 
+content-type: application/json
+{
+    "firstName":"Ashley", 
+    "lastName":"Weaver", 
+    "email":"aWeaver@test.com", 
+    "favoriteColor":"Brown", 
+    "birthday":"06/19/2000"
 }
 
 ### Update Contact - localhost Version (Insert valid ID)

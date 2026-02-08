@@ -7,17 +7,21 @@ routes.get('/kj', lesson1controller.nameRoute);
 routes.get('/stan', lesson1controller.stanRoute);
 
 routes.use('/contacts', require('./contacts'));
+// routes.use('/professional', require('./professional'));
 
 routes.use('/', require('./swagger'));
 routes.use('/temples', require('./temple'));
-routes.use(
-    '/',
-    (docData = (req, res) => {
-        let docData = ({
-            documentationURL: 'localhost:8080',
-        });
-        res.json(docData);
-    })
-);
+
+routes.use('/players', require('./players'));
+routes.use('/npcs', require('./npcs'));
+// routes.use(
+//     '/',
+//     (docData = (req, res) => {
+//         let docData = ({
+//             documentationURL: 'localhost:8080',
+//         });
+//         res.json(docData);
+//     })
+// );
 
 module.exports = routes;

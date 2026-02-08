@@ -2,44 +2,40 @@
 const express = require('express');
 const app = express();
 const port = process.env.PORT || 8080;
-const bodyParser = require('body-parser');
+// const bodyParser = require('body-parser');
+const { initDb } = require('./db/connect');
 
-const professionalRoutes = require('./routes/professional');
+// const professionalRoutes = require('./routes/professional');
 
 
 
-const swaggerAutogen = require('swagger-autogen');
-const swaggerUi = require('swagger-ui-express');
-const swaggerDocument = require('./swagger.json');
+// const swaggerAutogen = require('swagger-autogen');
+// const swaggerUi = require('swagger-ui-express');
+// const swaggerDocument = require('./swagger.json');
 
-app
-    .use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument))
-    .use(require('cors'))
-    .use(express.urlencoded({ extended: true }))
-    .use(bodyParser.json())
-    .use(express.static('frontend'))
-    .use('/', require('./routes'))
-    .use((req, res, next) => {
-        res.setHeader('Access-Control-Allow-Origin', '*');
-        next();
-    })
-    .use('/professional', professionalRoutes)
+// Middleware setup
+app.use(require('cors')());
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+app.use(express.static('frontend'));
+
+// Routes
+app.use('/', require('./routes'));
     
-    .use((req, res, next) => {
-        res.status(404).send('Route not found. Please check the URL.');
+app.use((req, res, next) => {
+    res.status(404).send('Route not found. Please check the URL.');
+});
+
+// MongoDB connection
+initDb((err) => {
+  if (err) {
+    console.log('MongoDB connection error:', err);
+  } else {
+    app.listen(port, () => {
+      console.log(`Server is running on http://localhost:${port}`);
+      console.log('Connected to MongoDB');
     });
-    
-const db = require('./models');
-db.mongoose
-  .connect(db.url)
-  .then(() => {
-    console.log('Connected to the database!');
-    app.listen(port);
-    console.log(`✅ Web Server is listening at port ${port}\n...`);
-  })
-  .catch((err) => {
-    console.log('Cannot connect to the database!', err);
-    process.exit();
-  });
+  }
+});
 
 console.log();
