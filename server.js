@@ -26,6 +26,10 @@ app.use((req, res, next) => {
     res.status(404).send('Route not found. Please check the URL.');
 });
 
+process.on('uncaughtException', (err, origin) => {
+  console.log(process.stderr.fd, `Caught exception: ${err}\n` + `Exception origin: ${origin}`);
+});
+
 // MongoDB connection
 initDb((err) => {
   if (err) {
@@ -37,5 +41,17 @@ initDb((err) => {
     });
   }
 });
+
+// process.on('unhandledRejection', (reason, promise) => {
+//   console.error('Unhandled Rejection at:', promise, 'reason:', reason);
+//   // Application specific logging, throwing an error, or other logic here
+// });
+// process.on('uncaughtException', (err) => {
+//   console.error('Uncaught Exception thrown:', err);
+//   // Application specific logging, throwing an error, or other logic here
+//   process.exit(1); // Exit the process to avoid undefined behavior
+// });
+
+
 
 console.log();

@@ -211,28 +211,28 @@
               "type": "object",
               "properties": {
                 "name": {
-                  "example": "any"
+                  "example": "name"
                 },
                 "level": {
-                  "example": "any"
+                  "example": 1
                 },
                 "strength": {
-                  "example": "any"
+                  "example": 1
                 },
                 "dexterity": {
-                  "example": "any"
+                  "example": 1
                 },
                 "constitution": {
-                  "example": "any"
+                  "example": 1
                 },
                 "intelligence": {
-                  "example": "any"
+                  "example": 1
                 },
                 "wisdom": {
-                  "example": "any"
+                  "example": 1
                 },
                 "charisma": {
-                  "example": "any"
+                  "example": 1
                 }
               }
             }
@@ -362,28 +362,28 @@
               "type": "object",
               "properties": {
                 "name": {
-                  "example": "any"
+                  "example": "name"
                 },
                 "level": {
-                  "example": "any"
+                  "example": 1
                 },
                 "strength": {
-                  "example": "any"
+                  "example": 1
                 },
                 "dexterity": {
-                  "example": "any"
+                  "example": 1
                 },
                 "constitution": {
-                  "example": "any"
+                  "example": 1
                 },
                 "intelligence": {
-                  "example": "any"
+                  "example": 1
                 },
                 "wisdom": {
-                  "example": "any"
+                  "example": 1
                 },
                 "charisma": {
-                  "example": "any"
+                  "example": 1
                 }
               }
             }
