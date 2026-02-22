@@ -6,6 +6,10 @@ const lesson1controller = require('../controllers/lesson1Con');
 routes.get('/kj', lesson1controller.nameRoute);
 routes.get('/stan', lesson1controller.stanRoute);
 
+routes.get('/login', (req, res) => {
+    res.send('Login');
+});
+
 routes.use('/contacts', require('./contacts'));
 // routes.use('/professional', require('./professional'));
 

@@ -22,6 +22,7 @@
     "joi-password-complexity": "^5.2.0",
     "mongodb": "^7.0.0",
     "mongoose": "^8.0.0",
+    "oauth": "^0.10.2",
     "swagger": "^0.0.1",
     "swagger-ui-express": "^5.0.1",
     "validator": "^13.15.26",

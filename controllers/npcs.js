@@ -121,7 +121,7 @@ const updateNPC = async (req, res) => {
         if (result.matchedCount === 0) {
           return res.status(404).json({ error: 'NPC not found' });
         }
-        res.status(204).send();
+        res.status(204).send("NPC updated successfully");
       } catch (dbErr) {
         res.status(500).json({ error: 'Failed to update NPC: ' + dbErr.message });
       }
@@ -145,7 +145,7 @@ const deleteNPC = async (req, res) => {
     if (result.deletedCount === 0) {
       return res.status(404).json({ error: 'NPC not found' });
     }
-    res.status(204).send();
+    res.status(204).send("NPC deleted successfully");
   } catch (err) {
     res.status(500).json({ error: 'Failed to delete NPC: ' + err.message });
   }
