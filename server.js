@@ -4,6 +4,7 @@ const app = express();
 const port = process.env.PORT || 8080;
 // const bodyParser = require('body-parser');
 const { initDb } = require('./db/connect');
+// const morgan = require('morgan');
 
 // const professionalRoutes = require('./routes/professional');
 
@@ -29,6 +30,22 @@ app.use((req, res, next) => {
 process.on('uncaughtException', (err, origin) => {
   console.log(process.stderr.fd, `Caught exception: ${err}\n` + `Exception origin: ${origin}`);
 });
+
+// logging
+if (process.env.NODE_ENV === 'development') {
+  const morgan = require('morgan');
+  app.use(morgan('dev'));
+}
+
+// handlebars setup
+const { engine } = require('express-handlebars');
+app.engine('hbs', engine({ 
+    extname: '.hbs',
+    defaultLayout: 'main',
+    layoutsDir: 'views/layout/'
+}));
+app.set('view engine', 'hbs');
+app.set('views', 'views');
 
 // MongoDB connection
 initDb((err) => {
