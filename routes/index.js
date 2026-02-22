@@ -17,6 +17,7 @@ routes.get('/dashboard', (req, res) => {
     res.send('Dashboard Page');
 });
 
+
 routes.use('/contacts', require('./contacts'));
 // routes.use('/professional', require('./professional'));
 
