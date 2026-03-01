@@ -3,7 +3,7 @@ require('dotenv').config();
 }
 const MongoClient = require('mongodb').MongoClient;
 
-let _db; // will hold the Database handle (not the raw MongoClient)
+let _db; 
 
 const initDb = (callback) => {
   if (_db) {
@@ -12,9 +12,8 @@ const initDb = (callback) => {
   }
   MongoClient.connect(process.env.MONGODB_URI)
     .then((client) => {
-      // choose DB name from env or default
       const dbName = process.env.MONGODB_DB || process.env.DB_NAME || 'cse341';
-      _db = client.db(dbName); // store the Database handle so .collection() is available
+      _db = client.db(dbName);
       console.log(`Database connected successfully (db: ${dbName})`);
       callback(null, _db);
     })
@@ -31,7 +30,7 @@ const getDb = () => {
   if (!_db) {
     throw Error('Db not initialized');
   }
-  return _db; // returns Database handle with collection()
+  return _db;
 };
 
 module.exports = {

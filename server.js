@@ -2,17 +2,16 @@
 const express = require('express');
 const app = express();
 const port = process.env.PORT || 8080;
-// const bodyParser = require('body-parser');
+const passport = require('passport');
+const session = require('express-session');
 const { initDb } = require('./db/connect');
-// const morgan = require('morgan');
+const { loadConfig } = require('./config/config');
 
-// const professionalRoutes = require('./routes/professional');
+// Load configuration
+const config = loadConfig();
 
-
-
-// const swaggerAutogen = require('swagger-autogen');
-// const swaggerUi = require('swagger-ui-express');
-// const swaggerDocument = require('./swagger.json');
+// Passport configuration
+require('./config/passport')(passport);
 
 // Middleware setup
 app.use(require('cors')());
@@ -20,7 +19,20 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static('frontend'));
 
+// Session middleware
+app.use(session({
+  secret: config.session.secret,
+  resave: config.session.resave,
+  saveUninitialized: config.session.saveUninitialized,
+  cookie: config.session.cookie
+}));
+
+// Passport middleware
+app.use(passport.initialize());
+app.use(passport.session());
+
 // Routes
+app.use('/auth', require('./routes/auth'));
 app.use('/', require('./routes'));
     
 app.use((req, res, next) => {
@@ -47,6 +59,12 @@ app.engine('hbs', engine({
 app.set('view engine', 'hbs');
 app.set('views', 'views');
 
+// Make user available to all templates
+app.use((req, res, next) => {
+  res.locals.user = req.user || null;
+  next();
+});
+
 // MongoDB connection
 initDb((err) => {
   if (err) {
@@ -58,17 +76,5 @@ initDb((err) => {
     });
   }
 });
-
-// process.on('unhandledRejection', (reason, promise) => {
-//   console.error('Unhandled Rejection at:', promise, 'reason:', reason);
-//   // Application specific logging, throwing an error, or other logic here
-// });
-// process.on('uncaughtException', (err) => {
-//   console.error('Uncaught Exception thrown:', err);
-//   // Application specific logging, throwing an error, or other logic here
-//   process.exit(1); // Exit the process to avoid undefined behavior
-// });
-
-
 
 console.log();

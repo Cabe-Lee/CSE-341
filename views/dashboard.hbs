@@ -1,1 +1,143 @@
-<h1>Dashboard</h1>
+<div class="container">
+  <div class="row mt-5">
+    <div class="col-12">
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1>Dashboard</h1>
+        <button id="logoutBtn" class="btn btn-outline-danger">Logout</button>
+      </div>
+      
+      <!-- User Info Card -->
+      <div class="card mb-4">
+        <div class="card-header bg-primary text-white">
+          <h5 class="mb-0">User Information</h5>
+        </div>
+        <div class="card-body">
+          <div id="userInfo">
+            <p><strong>Username:</strong> <span id="username">-</span></p>
+            <p><strong>Email:</strong> <span id="email">-</span></p>
+            <p><strong>Login Method:</strong> <span id="loginMethod">-</span></p>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Auth Status -->
+      <div id="authStatus" class="alert alert-info">
+        Checking authentication status...
+      </div>
+      
+      <!-- Protected Content (only visible when logged in) -->
+      <div id="protectedContent" style="display: none;">
+        <div class="card">
+          <div class="card-header bg-success text-white">
+            <h5 class="mb-0">Protected Content</h5>
+          </div>
+          <div class="card-body">
+            <p>Welcome to the protected area! You are successfully authenticated.</p>
+            <p>This content is only visible to logged-in users.</p>
+            
+            <h6 class="mt-4">API Token (for API access):</h6>
+            <div class="input-group mb-3">
+              <input type="text" class="form-control" id="apiToken" readonly>
+              <button class="btn btn-outline-secondary" onclick="copyToken()">Copy</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Check authentication status on page load
+  document.addEventListener('DOMContentLoaded', async () => {
+    const token = localStorage.getItem('token');
+    const user = JSON.parse(localStorage.getItem('user') || 'null');
+    
+    // Check for token in URL (from Google OAuth callback)
+    const urlParams = new URLSearchParams(window.location.search);
+    const urlToken = urlParams.get('token');
+    
+    if (urlToken) {
+      localStorage.setItem('token', urlToken);
+      // Clean URL
+      window.history.replaceState({}, document.title, '/dashboard');
+      
+      // Fetch user info
+      await fetchUserInfo(urlToken);
+    } else if (token) {
+      await fetchUserInfo(token);
+    } else {
+      showNotLoggedIn();
+    }
+  });
+
+  async function fetchUserInfo(token) {
+    try {
+      const response = await fetch('/auth/me', {
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+      
+      const data = await response.json();
+      
+      if (data.success) {
+        localStorage.setItem('user', JSON.stringify(data.user));
+        showLoggedIn(data.user, token);
+      } else {
+        // Token invalid, try to clean up
+        localStorage.removeItem('token');
+        localStorage.removeItem('user');
+        showNotLoggedIn();
+      }
+    } catch (error) {
+      console.error('Error fetching user info:', error);
+      showNotLoggedIn();
+    }
+  }
+
+  function showLoggedIn(user, token) {
+    document.getElementById('username').textContent = user.username || '-';
+    document.getElementById('email').textContent = user.email || '-';
+    document.getElementById('loginMethod').textContent = user.oauthProvider === 'google' ? 'Google' : 'Local';
+    
+    document.getElementById('authStatus').className = 'alert alert-success';
+    document.getElementById('authStatus').textContent = '✓ You are logged in';
+    
+    document.getElementById('protectedContent').style.display = 'block';
+    document.getElementById('apiToken').value = token;
+  }
+
+  function showNotLoggedIn() {
+    document.getElementById('username').textContent = 'Not logged in';
+    document.getElementById('email').textContent = 'Not logged in';
+    document.getElementById('loginMethod').textContent = 'Not logged in';
+    
+    document.getElementById('authStatus').className = 'alert alert-warning';
+    document.getElementById('authStatus').innerHTML = '⚠ You are not logged in. <a href="/login">Login here</a>';
+    
+    document.getElementById('protectedContent').style.display = 'none';
+  }
+
+  // Copy token to clipboard
+  function copyToken() {
+    const tokenInput = document.getElementById('apiToken');
+    tokenInput.select();
+    document.execCommand('copy');
+    alert('Token copied to clipboard!');
+  }
+
+  // Logout handler
+  document.getElementById('logoutBtn').addEventListener('click', async () => {
+    try {
+      await fetch('/auth/logout', { method: 'POST' });
+    } catch (error) {
+      console.error('Logout error:', error);
+    }
+    
+    // Clear local storage
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    
+    // Redirect to login
+    window.location.href = '/login';
+  });
+</script>

@@ -52,6 +52,26 @@ const getById = async (req, res, next) => {
   }
 };
 
+getByEmail = async (req, res, next) => {
+  try {
+    const email = req.params.email;
+    const db = getDb();
+    const result = await db
+      .collection('players')
+      .findOne({ email: email });
+    
+    if (!result) {
+      return res.status(404).json('Player not found');
+    }
+    res.status(200).json(result);
+  } catch (err) {
+    if (err.message === 'Db not initialized') {
+      res.status(503).json({ error: 'Database not available' });
+    } else {
+      res.status(500).json({ error: 'Failed to retrieve player: ' + err.message });
+    }}};
+
+
 const createPlayer = async (req, res) => {
   try {
     validator(req.body, playerValidationRules, {}, (err, status) => {

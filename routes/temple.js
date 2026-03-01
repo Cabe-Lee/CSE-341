@@ -1,12 +1,12 @@
 const routes = require('express').Router();
 const temples = require('../controllers/temple.js');
+const { verifyToken } = require('../middleware/auth');
 
+// Public routes - GET requests are accessible without authentication
 routes.get('/', temples.findAll);
 
-// Create a new Temple
-routes.post('/', temples.create);
-
-// Retrieve all published Temples
+// Protected routes - require JWT token authentication
+routes.post('/', verifyToken, temples.create);
 
 // Retrieve a single Temple with id
 routes.get('/:temple_id', temples.findOne);

@@ -1,1 +1,166 @@
-<h1>Hi welcome to login.</h1>
+<div class="container">
+  <div class="row justify-content-center mt-5">
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-header">
+          <ul class="nav nav-tabs card-header-tabs" id="authTabs" role="tablist">
+            <li class="nav-item">
+              <button class="nav-link active" id="login-tab" data-bs-toggle="tab" data-bs-target="#login" type="button">Login</button>
+            </li>
+            <li class="nav-item">
+              <button class="nav-link" id="register-tab" data-bs-toggle="tab" data-bs-target="#register" type="button">Register</button>
+            </li>
+          </ul>
+        </div>
+        <div class="card-body">
+          <div class="tab-content" id="authTabsContent">
+            <!-- Login Form -->
+            <div class="tab-pane fade show active" id="login">
+              <form id="loginForm">
+                <div class="mb-3">
+                  <label for="loginEmail" class="form-label">Email</label>
+                  <input type="email" class="form-control" id="loginEmail" name="email" required>
+                </div>
+                <div class="mb-3">
+                  <label for="loginPassword" class="form-label">Password</label>
+                  <input type="password" class="form-control" id="loginPassword" name="password" required>
+                </div>
+                <div id="loginMessage" class="alert d-none"></div>
+                <button type="submit" class="btn btn-primary w-100">Login</button>
+              </form>
+              
+              <hr class="my-4">
+              
+              <!-- Google OAuth Login -->
+              <div class="text-center">
+                <p class="mb-3">Or continue with</p>
+                <a href="/auth/google" class="btn btn-outline-danger">
+                  <img src="https://www.google.com/favicon.ico" alt="Google" width="16" height="16" class="me-2">
+                  Login with Google
+                </a>
+              </div>
+            </div>
+            
+            <!-- Register Form -->
+            <div class="tab-pane fade" id="register">
+              <form id="registerForm">
+                <div class="mb-3">
+                  <label for="registerUsername" class="form-label">Username</label>
+                  <input type="text" class="form-control" id="registerUsername" name="username" required>
+                </div>
+                <div class="mb-3">
+                  <label for="registerEmail" class="form-label">Email</label>
+                  <input type="email" class="form-control" id="registerEmail" name="email" required>
+                </div>
+                <div class="mb-3">
+                  <label for="registerPassword" class="form-label">Password</label>
+                  <input type="password" class="form-control" id="registerPassword" name="password" required minlength="6">
+                  <div class="form-text">Password must be at least 6 characters</div>
+                </div>
+                <div class="mb-3">
+                  <label for="registerConfirmPassword" class="form-label">Confirm Password</label>
+                  <input type="password" class="form-control" id="registerConfirmPassword" name="confirmPassword" required>
+                </div>
+                <div id="registerMessage" class="alert d-none"></div>
+                <button type="submit" class="btn btn-success w-100">Register</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Login Form Handler
+  document.getElementById('loginForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const messageDiv = document.getElementById('loginMessage');
+    const email = document.getElementById('loginEmail').value;
+    const password = document.getElementById('loginPassword').value;
+    
+    try {
+      const response = await fetch('/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password })
+      });
+      
+      const data = await response.json();
+      
+      if (data.success) {
+        // Store token and redirect with token in URL
+        localStorage.setItem('token', data.token);
+        localStorage.setItem('user', JSON.stringify(data.user));
+        window.location.href = '/registered?token=' + data.token;
+      } else {
+        messageDiv.className = 'alert alert-danger';
+        messageDiv.textContent = data.message;
+        messageDiv.classList.remove('d-none');
+      }
+    } catch (error) {
+      messageDiv.className = 'alert alert-danger';
+      messageDiv.textContent = 'An error occurred. Please try again.';
+      messageDiv.classList.remove('d-none');
+    }
+  });
+
+  // Register Form Handler
+  document.getElementById('registerForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const messageDiv = document.getElementById('registerMessage');
+    const username = document.getElementById('registerUsername').value;
+    const email = document.getElementById('registerEmail').value;
+    const password = document.getElementById('registerPassword').value;
+    const confirmPassword = document.getElementById('registerConfirmPassword').value;
+    
+    if (password !== confirmPassword) {
+      messageDiv.className = 'alert alert-danger';
+      messageDiv.textContent = 'Passwords do not match';
+      messageDiv.classList.remove('d-none');
+      return;
+    }
+    
+    try {
+      const response = await fetch('/auth/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username, email, password })
+      });
+      
+      const data = await response.json();
+      
+      if (data.success) {
+        // Store token and redirect with token in URL
+        localStorage.setItem('token', data.token);
+        localStorage.setItem('user', JSON.stringify(data.user));
+        window.location.href = '/registered?token=' + data.token;
+      } else {
+        messageDiv.className = 'alert alert-danger';
+        messageDiv.textContent = data.message;
+        messageDiv.classList.remove('d-none');
+      }
+    } catch (error) {
+      messageDiv.className = 'alert alert-danger';
+      messageDiv.textContent = 'An error occurred. Please try again.';
+      messageDiv.classList.remove('d-none');
+    }
+  });
+
+  // Check for OAuth errors in URL
+  const urlParams = new URLSearchParams(window.location.search);
+  if (urlParams.get('error')) {
+    const messageDiv = document.getElementById('loginMessage');
+    messageDiv.className = 'alert alert-danger';
+    messageDiv.textContent = 'Authentication failed. Please try again.';
+    messageDiv.classList.remove('d-none');
+  }
+  
+  // Check for token in URL (from Google OAuth callback)
+  const token = urlParams.get('token');
+  if (token) {
+    localStorage.setItem('token', token);
+    window.location.href = '/dashboard';
+  }
+</script>
